@@ -1,10 +1,12 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+if (typeof __decorate !== "function") __decorate = function (decorators, target, key, desc) {
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") return Reflect.decorate(decorators, target, key, desc);
+    switch (arguments.length) {
+        case 2: return decorators.reduceRight(function(o, d) { return (d && d(o)) || o; }, target);
+        case 3: return decorators.reduceRight(function(o, d) { return (d && d(target, key)), void 0; }, void 0);
+        case 4: return decorators.reduceRight(function(o, d) { return (d && d(target, key, o)) || o; }, desc);
+    }
 };
-var Menu = (function () {
+class Menu {
     //properties
     // public items: Array<string>;
     // public pages: number;
@@ -13,78 +15,73 @@ var Menu = (function () {
     // 	this.pages = pages;
     // }
     //constructor shortcut
-    function Menu(items, pages) {
+    constructor(items, pages) {
         this.items = items;
         this.pages = pages;
     }
-    Menu.prototype.displayItems = function (containerId) {
+    displayItems(containerId) {
         var container = document.getElementById(containerId);
-        for (var _i = 0, _a = this.items; _i < _a.length; _i++) {
-            var val = _a[_i];
-            var newPrg = document.createElement("p");
+        for (var val of this.items) {
+            let newPrg = document.createElement("p");
             newPrg.appendChild(document.createTextNode(val));
             container.appendChild(newPrg);
         }
-    };
-    return Menu;
-})();
-var sundayMenu = new Menu(['Pancakes', 'Waffles', 'Chocolate Cake'], 1);
+    }
+}
+let sundayMenu = new Menu(['Pancakes', 'Waffles', 'Chocolate Cake'], 1);
 sundayMenu.displayItems('menu');
 //inheritance
-var HappyMeal = (function (_super) {
-    __extends(HappyMeal, _super);
+class HappyMeal extends Menu {
     //constructor with additional property
-    function HappyMeal(items, pages, special) {
-        _super.call(this, items, pages);
+    constructor(items, pages, special) {
+        super(items, pages);
         this.items = items;
         this.pages = pages;
         this.special = special;
     }
     //override method from parent class
-    HappyMeal.prototype.displayItems = function (containerId) {
+    displayItems(containerId) {
         console.log("called from HappyMeal");
         //call original method from parent class
-        _super.prototype.displayItems.call(this, containerId);
+        super.displayItems(containerId);
         //call additional method
         this.addSpecial(containerId);
-    };
+    }
     //add special
-    HappyMeal.prototype.addSpecial = function (containerId) {
+    addSpecial(containerId) {
         var container = document.getElementById(containerId);
-        var newPrg = document.createElement('p');
+        let newPrg = document.createElement('p');
         newPrg.appendChild(document.createTextNode('SPECIAL: ' + this.special));
         container.appendChild(newPrg);
-    };
-    return HappyMeal;
-})(Menu);
-var happy = new HappyMeal(['Burger', "Fries", "Ketchup"], 1, 'Toy');
+    }
+}
+let happy = new HappyMeal(['Burger', "Fries", "Ketchup"], 1, 'Toy');
 happy.displayItems('menu');
 //decorators
 //@course
-// @Course({
-//     course: "hhhhhhhh 2"
-// })
-// class Person {
-//     firstName;
-//     lastName;
-//     constructor(firstName, lastName) {
-//         this.firstName = firstName;
-//         this.lastName = lastName;
-//     }
-// }
+let Person = class {
+    constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+};
+Object.defineProperty(Person, "name", { value: "Person", configurable: true });
+Person = __decorate([
+    Course({
+        course: "hhhhhhhh 2"
+    })
+], Person);
 //'target' represents the constructor function of the class the decorator is attached to
 //add a function called course onto the class it decorates
-// function course(target) {
-//     Object.defineProperty(target.prototype, 'course', { value: () => "Angular 2" })
-// }
-// let person = new Person('Irene', 'Theiss');
-// console.log(person.Course());
-// function Course(config) { // 1
-//     return function(target) {
-//         Object.defineProperty(
-//             target.prototype,
-//             'course', { value: () => config.course } // 2
-//         )
-//     }
-// }
+function course(target) {
+    Object.defineProperty(target.prototype, 'course', { value: () => "Angular 2" });
+}
+let person = new Person('Irene', 'Theiss');
+console.log(person.Course());
+function Course(config) {
+    return function (target) {
+        Object.defineProperty(target.prototype, 'course', { value: () => config.course } // 2
+        );
+    };
+}
 //# sourceMappingURL=script.js.map

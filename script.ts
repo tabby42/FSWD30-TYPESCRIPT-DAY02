@@ -61,36 +61,38 @@ happy.displayItems('menu');
 
 //decorators
 //@course
-// @Course({
-//     course: "hhhhhhhh 2"
-// })
-// class Person {
-//     firstName;
-//     lastName;
-//     constructor(firstName, lastName) {
-//         this.firstName = firstName;
-//         this.lastName = lastName;
-//     }
-// }
+@Course({
+    course: "hhhhhhhh 2"
+})
+class Person {
+    firstName;
+    lastName;
+    constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+}
 
 //'target' represents the constructor function of the class the decorator is attached to
 //add a function called course onto the class it decorates
+
+//no-argument decorator
 // function course(target) {
 //     Object.defineProperty(target.prototype, 'course', { value: () => "Angular 2" })
 // }
 
-// let person = new Person('Irene', 'Theiss');
-// console.log(person.Course());
+let person = new Person('Irene', 'Theiss');
+console.log(person.Course());
 
-
-// function Course(config) { // 1
-//     return function(target) {
-//         Object.defineProperty(
-//             target.prototype,
-//             'course', { value: () => config.course } // 2
-//         )
-//     }
-// }
+//decorator with arguments
+function Course(config) { // 1
+    return function(target) {
+        Object.defineProperty(
+            target.prototype,
+            'course', { value: () => config.course } // 2
+        )
+    }
+}
 
 
 

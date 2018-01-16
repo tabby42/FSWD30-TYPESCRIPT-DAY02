@@ -2,7 +2,7 @@
     "compilerOptions": {
         "out": "dist/script.js", 
         "sourceMap": true, 
-        "target": "es5"
+        "target": "es6"
     }, 
     "files": [
         "script.ts"
